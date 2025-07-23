@@ -21,12 +21,14 @@ resource "azurerm_linux_function_app" "this" {
   app_settings = {
     FUNCTIONS_WORKER_RUNTIME = "dotnet-isolated"
     # Placeholders are a platform capability that improves cold start for apps targeting .NET 6 or later.
-    WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED   = "1"
-    AzureWebJobsStorage__accountName         = azurerm_storage_account.this.name
-    WEBSITE_CONTENTSHARE                     = format("func-%s", local.resource_suffix_kebabcase)
+    WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED = "1"
+    AzureWebJobsStorage__accountName       = azurerm_storage_account.this.name
+    WEBSITE_CONTENTSHARE                   = format("func-%s", local.resource_suffix_kebabcase)
     # Enable all traffic routing to the VNet
     # WEBSITE_VNET_ROUTE_ALL                   = true
     WEBSITE_CONTENTAZUREFILECONNECTIONSTRING = azurerm_storage_account.this.primary_connection_string
+    STORAGE_QUEUE_NAME                       = azurerm_storage_queue.hello_queue.name,
+    APPLICATIONINSIGHTS_CONNECTION_STRING    = azurerm_application_insights.this.connection_string
   }
 
   site_config {

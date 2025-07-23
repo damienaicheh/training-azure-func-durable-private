@@ -17,14 +17,14 @@ resource "azurerm_storage_account" "storage" {
   }
 }
 
-# resource "azurerm_storage_queue" "hello_queue" {
-#   name                 = "hello-queue"
-#   storage_account_name = azurerm_storage_account.storage.name
-#   depends_on = [
-#     azurerm_role_assignment.user_storage_queue_data_owner,
-#     azurerm_role_assignment.user_reader,
-#   ]
-# }
+resource "azurerm_storage_queue" "hello_queue" {
+  name                 = "hello-queue"
+  storage_account_name = azurerm_storage_account.storage.name
+  depends_on = [
+    azurerm_role_assignment.user_storage_queue_data_owner,
+    azurerm_role_assignment.user_reader,
+  ]
+}
 
 data "http" "my_ip" {
   url = "https://ipv4.icanhazip.com"
