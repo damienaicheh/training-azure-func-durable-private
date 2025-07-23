@@ -51,4 +51,21 @@ public static class HelloOrchestration
         // See https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-http-api#start-orchestration
         return await client.CreateCheckStatusResponseAsync(req, instanceId);
     }
+
+    [Function("HelloOrchestration_StorageQueueStart")]
+    public static async Task StorageQueueStart(
+        [QueueTrigger("%STORAGE_QUEUE_NAME%", Connection = "STORAGE_QUEUE_CONNECTION")] string queueMessage,
+        [DurableClient] DurableTaskClient client,
+        FunctionContext executionContext)
+    {
+        ILogger logger = executionContext.GetLogger("HelloOrchestration_StorageQueueStart");
+
+        logger.LogInformation($"Processing queue message {queueMessage}");
+
+        // Function input comes from the request content.
+        string instanceId = await client.ScheduleNewOrchestrationInstanceAsync(
+            nameof(HelloOrchestration), queueMessage);
+
+        logger.LogInformation("Started orchestration with ID = '{instanceId}'.", instanceId);
+    }
 }
