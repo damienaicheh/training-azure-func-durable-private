@@ -6,5 +6,7 @@ https://learn.microsoft.com/en-us/azure/azure-functions/functions-identity-based
 Publish the function app
 
 ```bash
-func azure functionapp publish <function_app_name>
+func azure functionapp publish <function_app_name> --dotnet-isolated
 ```
+
+https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference?tabs=blob&pivots=programming-language-csharp#connecting-to-host-storage-with-an-identity

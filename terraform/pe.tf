@@ -35,12 +35,12 @@ resource "azurerm_private_endpoint" "func_sto_blob" {
   private_service_connection {
     is_manual_connection           = false
     name                           = format("psc-fsto-blob-%s", local.resource_suffix_kebabcase)
-    private_connection_resource_id = azurerm_storage_account.this.id
+    private_connection_resource_id = azurerm_storage_account.host.id
     subresource_names              = ["blob"]
   }
 
   depends_on = [
-    azurerm_storage_account.this
+    azurerm_storage_account.host
   ]
 }
 
@@ -58,12 +58,12 @@ resource "azurerm_private_endpoint" "func_sto_file" {
   private_service_connection {
     is_manual_connection           = false
     name                           = format("psc-fsto-file-%s", local.resource_suffix_kebabcase)
-    private_connection_resource_id = azurerm_storage_account.this.id
+    private_connection_resource_id = azurerm_storage_account.host.id
     subresource_names              = ["file"]
   }
 
   depends_on = [
-    azurerm_storage_account.this
+    azurerm_storage_account.host
   ]
 }
 
@@ -81,12 +81,12 @@ resource "azurerm_private_endpoint" "func_sto_queue" {
   private_service_connection {
     is_manual_connection           = false
     name                           = format("pe-fsto-queue-%s", local.resource_suffix_kebabcase)
-    private_connection_resource_id = azurerm_storage_account.this.id
+    private_connection_resource_id = azurerm_storage_account.host.id
     subresource_names              = ["queue"]
   }
 
   depends_on = [
-    azurerm_storage_account.this
+    azurerm_storage_account.host
   ]
 }
 
@@ -104,12 +104,12 @@ resource "azurerm_private_endpoint" "func_sto_table" {
   private_service_connection {
     is_manual_connection           = false
     name                           = format("pe-fsto-table-%s", local.resource_suffix_kebabcase)
-    private_connection_resource_id = azurerm_storage_account.this.id
+    private_connection_resource_id = azurerm_storage_account.host.id
     subresource_names              = ["table"]
   }
 
   depends_on = [
-    azurerm_storage_account.this
+    azurerm_storage_account.host
   ]
 }
 
@@ -127,7 +127,7 @@ resource "azurerm_private_endpoint" "sto_queue" {
   private_service_connection {
     is_manual_connection           = false
     name                           = format("pe-sto-queue-%s", local.resource_suffix_kebabcase)
-    private_connection_resource_id = azurerm_storage_account.this.id
+    private_connection_resource_id = azurerm_storage_account.host.id
     subresource_names              = ["queue"]
   }
 
