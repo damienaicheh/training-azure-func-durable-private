@@ -20,14 +20,18 @@ resource "azurerm_linux_function_app" "this" {
   }
 
   app_settings = {
-    FUNCTIONS_WORKER_RUNTIME              = "dotnet-isolated"
-    FUNCTIONS_EXTENSION_VERSION           = "~4"
-    APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.this.connection_string
-    AzureWebJobsStorage__clientId         = azurerm_user_assigned_identity.function_identity.client_id
-    AzureWebJobsStorage__credential       = "managedidentity"
-    AzureWebJobsStorage__blobServiceUri   = format("https://%s.blob.core.windows.net/", azurerm_storage_account.host.name)
-    AzureWebJobsStorage__queueServiceUri  = format("https://%s.queue.core.windows.net/", azurerm_storage_account.host.name)
-    AzureWebJobsStorage__tableServiceUri  = format("https://%s.table.core.windows.net/", azurerm_storage_account.host.name)
+    FUNCTIONS_WORKER_RUNTIME                = "dotnet-isolated"
+    FUNCTIONS_EXTENSION_VERSION             = "~4"
+    APPLICATIONINSIGHTS_CONNECTION_STRING   = azurerm_application_insights.this.connection_string
+    AzureWebJobsStorage__clientId           = azurerm_user_assigned_identity.function_identity.client_id
+    AzureWebJobsStorage__credential         = "managedidentity"
+    AzureWebJobsStorage__blobServiceUri     = format("https://%s.blob.core.windows.net/", azurerm_storage_account.host.name)
+    AzureWebJobsStorage__queueServiceUri    = format("https://%s.queue.core.windows.net/", azurerm_storage_account.host.name)
+    AzureWebJobsStorage__tableServiceUri    = format("https://%s.table.core.windows.net/", azurerm_storage_account.host.name)
+    STORAGE_QUEUE_NAME                      = azurerm_storage_queue.hello_queue.name
+    StorageQueueConnection__clientId        = azurerm_user_assigned_identity.function_identity.client_id
+    StorageQueueConnection__credential      = "managedidentity"
+    StorageQueueConnection__queueServiceUri = format("https://%s.queue.core.windows.net/", azurerm_storage_account.host.name)
   }
 
   site_config {

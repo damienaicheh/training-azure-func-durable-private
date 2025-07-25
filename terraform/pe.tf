@@ -132,6 +132,7 @@ resource "azurerm_private_endpoint" "sto_queue" {
   }
 
   depends_on = [
-    azurerm_storage_account.storage
+    azurerm_storage_account.storage,
+    azurerm_storage_queue.hello_queue
   ]
 }

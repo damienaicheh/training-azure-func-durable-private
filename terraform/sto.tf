@@ -9,16 +9,6 @@ resource "azurerm_storage_account" "host" {
   allow_nested_items_to_be_public  = false
   default_to_oauth_authentication  = true
   public_network_access_enabled    = false
-
-  # network_rules {
-  #   bypass         = ["AzureServices"]
-  #   default_action = "Deny"
-  #   ip_rules       = [chomp(data.http.my_ip.response_body)]
-  #   virtual_network_subnet_ids = [
-  #     azurerm_subnet.subnet_func_plan.id,
-  #     azurerm_subnet.subnet_bastion.id
-  #   ]
-  # }
 }
 
 resource "azurerm_storage_account" "storage" {
@@ -32,27 +22,13 @@ resource "azurerm_storage_account" "storage" {
   allow_nested_items_to_be_public  = false
   default_to_oauth_authentication  = true
   public_network_access_enabled    = true
-  network_rules {
-    bypass                     = ["AzureServices"]
-    default_action             = "Deny"
-    ip_rules                   = [chomp(data.http.my_ip.response_body)]
-    virtual_network_subnet_ids = []
-  }
 }
 
-# resource "azurerm_storage_queue" "hello_queue" {
-#   name                 = "hello-queue"
-#   storage_account_name = azurerm_storage_account.storage.name
-#   depends_on = [
-#     azurerm_role_assignment.user_storage_queue_data_contributor,
-#     azurerm_role_assignment.user_reader,
-#   ]
-# }
-
-data "http" "my_ip" {
-  url = "https://ipv4.icanhazip.com"
-}
-
-output "public_ip" {
-  value = chomp(data.http.my_ip.response_body)
+resource "azurerm_storage_queue" "hello_queue" {
+  name                 = "hello-queue"
+  storage_account_name = azurerm_storage_account.storage.name
+  depends_on = [
+    azurerm_role_assignment.user_storage_queue_data_contributor,
+    azurerm_role_assignment.user_reader,
+  ]
 }

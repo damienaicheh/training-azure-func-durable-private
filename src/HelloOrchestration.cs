@@ -54,7 +54,7 @@ public static class HelloOrchestration
 
     [Function("HelloOrchestration_StorageQueueStart")]
     public static async Task StorageQueueStart(
-        [QueueTrigger("%STORAGE_QUEUE_NAME%", Connection = "AzureWebJobsStorage")] string queueMessage,
+        [QueueTrigger("%STORAGE_QUEUE_NAME%", Connection = "StorageQueueConnection")] string queueMessage,
         [DurableClient] DurableTaskClient client,
         FunctionContext executionContext)
     {
