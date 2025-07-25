@@ -6,7 +6,7 @@ resource "azurerm_private_endpoint" "func" {
 
   private_dns_zone_group {
     name                 = "default"
-    private_dns_zone_ids = [azurerm_private_dns_zone.app_service.id]
+    private_dns_zone_ids = [azurerm_private_dns_zone.privatelink_azurewebsites_net.id]
   }
 
   private_service_connection {
@@ -29,7 +29,7 @@ resource "azurerm_private_endpoint" "func_sto_blob" {
 
   private_dns_zone_group {
     name                 = "blob-default"
-    private_dns_zone_ids = [azurerm_private_dns_zone.sto_blob.id]
+    private_dns_zone_ids = [azurerm_private_dns_zone.privatelink_blob_core_windows_net.id]
   }
 
   private_service_connection {
@@ -52,7 +52,7 @@ resource "azurerm_private_endpoint" "func_sto_file" {
 
   private_dns_zone_group {
     name                 = "file-default"
-    private_dns_zone_ids = [azurerm_private_dns_zone.sto_file.id]
+    private_dns_zone_ids = [azurerm_private_dns_zone.privatelink_file_core_windows_net.id]
   }
 
   private_service_connection {
@@ -75,7 +75,7 @@ resource "azurerm_private_endpoint" "func_sto_queue" {
 
   private_dns_zone_group {
     name                 = "queue-default"
-    private_dns_zone_ids = [azurerm_private_dns_zone.sto_queue.id]
+    private_dns_zone_ids = [azurerm_private_dns_zone.privatelink_queue_core_windows_net.id]
   }
 
   private_service_connection {
@@ -98,7 +98,7 @@ resource "azurerm_private_endpoint" "func_sto_table" {
 
   private_dns_zone_group {
     name                 = "table-default"
-    private_dns_zone_ids = [azurerm_private_dns_zone.sto_table.id]
+    private_dns_zone_ids = [azurerm_private_dns_zone.privatelink_table_core_windows_net.id]
   }
 
   private_service_connection {
@@ -121,13 +121,13 @@ resource "azurerm_private_endpoint" "sto_queue" {
 
   private_dns_zone_group {
     name                 = "queue-default"
-    private_dns_zone_ids = [azurerm_private_dns_zone.sto_queue.id]
+    private_dns_zone_ids = [azurerm_private_dns_zone.privatelink_queue_core_windows_net.id]
   }
 
   private_service_connection {
     is_manual_connection           = false
     name                           = format("pe-sto-queue-%s", local.resource_suffix_kebabcase)
-    private_connection_resource_id = azurerm_storage_account.host.id
+    private_connection_resource_id = azurerm_storage_account.storage.id
     subresource_names              = ["queue"]
   }
 
