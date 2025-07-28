@@ -31,7 +31,7 @@ resource "azurerm_linux_function_app" "this" {
     STORAGE_QUEUE_NAME                      = azurerm_storage_queue.hello_queue.name
     StorageQueueConnection__clientId        = azurerm_user_assigned_identity.function_identity.client_id
     StorageQueueConnection__credential      = "managedidentity"
-    StorageQueueConnection__queueServiceUri = format("https://%s.queue.core.windows.net/", azurerm_storage_account.host.name)
+    StorageQueueConnection__queueServiceUri = format("https://%s.queue.core.windows.net/", azurerm_storage_account.storage.name)
   }
 
   site_config {
